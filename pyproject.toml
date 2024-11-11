@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "cards-identification"
+version = "0.1.0"
+description = ""
+authors = ["Macrume <jakub.jarzabek49@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+ijson = "^3.3.0"
+tqdm = "^4.67.0"
+pillow = "^11.0.0"
+pandas = "^2.2.3"
+matplotlib = "^3.9.2"
+scikit-learn = "^1.5.2"
+seaborn = "^0.13.2"
+ipykernel = "^6.29.5"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
