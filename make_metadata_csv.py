@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # Katalogi do zapisu 
 log_dir = "logs"
 cards_dir = "cards"
+data_dir = "datasets"
 
 # Tworzenie katalogu jeżeli jeszcze ich nie ma
 if not os.path.exists(log_dir):
@@ -267,7 +268,7 @@ def main():
     # Tworzenie DataFrame i zapis do CSV
     if data_list:
         df = pd.DataFrame(data_list)
-        df.to_csv('cards_metadata.csv', index=False)
+        df.to_csv(os.pat.join(data_dir,'cards_metadata.csv'), index=False)
         logging.info("Pomyślnie zapisano cards_metadata.csv")
     else:
         logging.error("Brak danych do zapisania.")

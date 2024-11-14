@@ -7,11 +7,13 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 from collections import Counter
 
+data_dir = "datasets"
+
 # Ustawienie stylu wykresów
 sns.set_theme(style='whitegrid', palette='muted', font_scale=1.2)
 
 # Wczytanie zbioru danych z pliku CSV
-df = pd.read_csv('cards_metadata.csv')
+df = pd.read_csv(os.path.join(data_dir, 'cards_metadata.csv'))
 
 # Wyświetlenie przykładowych wierszy
 print(df.sample(10))
