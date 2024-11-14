@@ -1,8 +1,11 @@
 name: MTG Card Prediction Workflow
 
 on:
-  workflow_dispatch:
-  schedule:
+    push:
+        branches:
+          - main  
+    workflow_dispatch:
+    schedule:
     - cron: '0 0 * * *'  # Uruchamia się codziennie o północy
 
 jobs:
@@ -14,8 +17,8 @@ jobs:
 
       - name: Ustawienie symlinków do katalogu danych
         run: |
-          mkdir -p /home/kuba/actions-runner/data
-          ln -sfn /home/kuba/actions-runner/data data
+          mkdir -p /home/kuba/mtg_project/data
+          ln -sfn /home/kuba/mtg_project/data data
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -40,10 +43,10 @@ jobs:
 
       - name: Ustawienie symlinków do katalogów data i cards
         run: |
-          mkdir -p /home/kuba/actions-runner/data
-          mkdir -p /home/kuba/actions-runner/cards
-          ln -sfn /home/kuba/actions-runner/data data
-          ln -sfn /home/kuba/actions-runner/cards cards
+          mkdir -p /home/kuba/mtg_project/data
+          mkdir -p /home/kuba/mtg_project/cards
+          ln -sfn /home/kuba/mtg_project/data data
+          ln -sfn /home/kuba/mtg_project/cards cards
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -65,10 +68,10 @@ jobs:
 
       - name: Ustawienie symlinków do katalogów data i cards
         run: |
-          mkdir -p /home/kuba/actions-runner/data
-          mkdir -p /home/kuba/actions-runner/cards
-          ln -sfn /home/kuba/actions-runner/data data
-          ln -sfn /home/kuba/actions-runner/cards cards
+          mkdir -p /home/kuba/mtg_project/data
+          mkdir -p /home/kuba/mtg_project/cards
+          ln -sfn /home/kuba/mtg_project/data data
+          ln -sfn /home/kuba/mtg_project/cards cards
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -90,12 +93,12 @@ jobs:
 
       - name: Ustawienie symlinków do katalogów data i cards
         run: |
-          mkdir -p /home/kuba/actions-runner/data
-          mkdir -p /home/kuba/actions-runner/cards
-          mkdir -p /home/kuba/actions-runner/datasets
-          ln -sfn /home/kuba/actions-runner/data data
-          ln -sfn /home/kuba/actions-runner/cards cards
-          ln -sfn /home/kuba/actions-runner/datasets datasets
+          mkdir -p /home/kuba/mtg_project/data
+          mkdir -p /home/kuba/mtg_project/cards
+          mkdir -p /home/kuba/mtg_project/datasets
+          ln -sfn /home/kuba/mtg_project/data data
+          ln -sfn /home/kuba/mtg_project/cards cards
+          ln -sfn /home/kuba/mtg_project/datasets datasets
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
