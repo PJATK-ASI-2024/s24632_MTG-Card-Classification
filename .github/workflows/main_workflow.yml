@@ -29,7 +29,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
-        run: poetry install
+        run: poetry install -vvv
 
       - name: Uruchomienie download_bulk_data.py
         run: python download_bulk_data.py
@@ -60,7 +60,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
-        run: poetry install
+        run: poetry install -vvv
 
       - name: Uruchomienie download_card_images.py
         run: python download_card_images.py
@@ -88,7 +88,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
-        run: poetry install
+        run: poetry install -vvv
 
       - name: Uruchomienie make_metadata_csv.py
         run: python make_metadata_csv.py
@@ -118,7 +118,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
-        run: poetry install
+        run: poetry install -vvv
 
       - name: Uruchomienie data_analysis.py
         run: python data_analysis.py
