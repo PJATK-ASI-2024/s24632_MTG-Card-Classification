@@ -72,12 +72,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Ustawienie symlinków do katalogów data i cards
+      - name: Ustawienie symlinków do katalogów data, cards i logs
         run: |
           mkdir -p /home/kuba/mtg_project/data
           mkdir -p /home/kuba/mtg_project/cards
+          mkdir -p /home/kuba/mtg_project/logs
           ln -sfn /home/kuba/mtg_project/data data
           ln -sfn /home/kuba/mtg_project/cards cards
+          ln -sfn /home/kuba/mtg_project/logs logs
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -100,13 +102,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Ustawienie symlinków do katalogów data i cards
+      - name: Ustawienie symlinków do katalogów data, cards, logs i datasets
         run: |
           mkdir -p /home/kuba/mtg_project/data
           mkdir -p /home/kuba/mtg_project/cards
+          mkdir -p /home/kuba/mtg_project/logs
           mkdir -p /home/kuba/mtg_project/datasets
           ln -sfn /home/kuba/mtg_project/data data
           ln -sfn /home/kuba/mtg_project/cards cards
+          ln -sfn /home/kuba/mtg_project/logs logs
           ln -sfn /home/kuba/mtg_project/datasets datasets
 
       - name: Ustawienie Pythona

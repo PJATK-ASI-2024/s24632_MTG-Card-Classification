@@ -15,6 +15,8 @@ data_dir = "datasets"
 # Tworzenie katalogu jeżeli jeszcze ich nie ma
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
+if not os.path.exists(data_dir):
+    os.makedirs(data_dir)
 
 # Konfiguracja loggera
 logging.basicConfig(
