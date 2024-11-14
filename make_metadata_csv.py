@@ -30,8 +30,8 @@ logging.basicConfig(
 
 
 # Ścieżki do plików
-json_file_path = os.path.join(data_dir, 'data/default-cards.json')  
-mtg_types_file = os.path.join(data_dir, 'data/mtg_types.json')  
+json_file_path = os.path.join(data_dir, 'default-cards.json')  
+mtg_types_file = os.path.join(data_dir, 'mtg_types.json')  
 
 # Wczytaj listy z pliku mtg_types.json
 with open(mtg_types_file, 'r', encoding='utf-8') as f:
