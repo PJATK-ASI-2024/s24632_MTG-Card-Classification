@@ -268,7 +268,7 @@ def main():
     # Tworzenie DataFrame i zapis do CSV
     if data_list:
         df = pd.DataFrame(data_list)
-        df.to_csv(os.pat.join(data_dir,'cards_metadata.csv'), index=False)
+        df.to_csv(os.path.join(data_dir,'cards_metadata.csv'), index=False)
         logging.info("Pomyślnie zapisano cards_metadata.csv")
     else:
         logging.error("Brak danych do zapisania.")
