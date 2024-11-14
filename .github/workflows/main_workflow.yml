@@ -32,10 +32,10 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie download_bulk_data.py
-        run: python download_bulk_data.py
+        run: poetry run python download_bulk_data.py
 
       - name: Uruchomienie download_types.py
-        run: python download_types.py
+        run: poetry run python download_types.py
 
   download_images:
     runs-on: self-hosted
@@ -63,7 +63,7 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie download_card_images.py
-        run: python download_card_images.py
+        run: poetry run python download_card_images.py
 
   create_metadata:
     runs-on: self-hosted
@@ -91,7 +91,7 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie make_metadata_csv.py
-        run: python make_metadata_csv.py
+        run: poetry run python make_metadata_csv.py
 
   data_analysis:
     runs-on: self-hosted
@@ -121,4 +121,4 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie data_analysis.py
-        run: python data_analysis.py
+        run: poetry run python data_analysis.py
