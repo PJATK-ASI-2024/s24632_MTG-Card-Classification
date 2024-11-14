@@ -10,13 +10,14 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # Katalogi do zapisu 
 log_dir = "logs"
 cards_dir = "cards"
-data_dir = "datasets"
+data_dir = "data"
+dataset_dir = "datasets"
 
 # Tworzenie katalogu jeżeli jeszcze ich nie ma
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
-if not os.path.exists(data_dir):
-    os.makedirs(data_dir)
+if not os.path.exists(dataset_dir):
+    os.makedirs(dataset_dir)
 
 # Konfiguracja loggera
 logging.basicConfig(
@@ -29,8 +30,8 @@ logging.basicConfig(
 
 
 # Ścieżki do plików
-json_file_path = 'data/default-cards.json'  
-mtg_types_file = 'data/mtg_types.json'  
+json_file_path = os.path.join(data_dir, 'data/default-cards.json')  
+mtg_types_file = os.path.join(data_dir, 'data/mtg_types.json')  
 
 # Wczytaj listy z pliku mtg_types.json
 with open(mtg_types_file, 'r', encoding='utf-8') as f:
@@ -270,7 +271,7 @@ def main():
     # Tworzenie DataFrame i zapis do CSV
     if data_list:
         df = pd.DataFrame(data_list)
-        df.to_csv(os.path.join(data_dir,'cards_metadata.csv'), index=False)
+        df.to_csv(os.path.join(dataset_dir,'cards_metadata.csv'), index=False)
         logging.info("Pomyślnie zapisano cards_metadata.csv")
     else:
         logging.error("Brak danych do zapisania.")
