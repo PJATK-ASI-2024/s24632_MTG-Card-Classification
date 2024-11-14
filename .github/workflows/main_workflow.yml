@@ -10,7 +10,7 @@ on:
 
 jobs:
   download_data:
-    runs-on: ubuntu-proxmox
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -35,7 +35,7 @@ jobs:
         run: python download_types.py
 
   download_images:
-    runs-on: ubuntu-proxmox
+    runs-on: self-hosted
     needs: download_data
     steps:
       - name: Checkout code
@@ -60,7 +60,7 @@ jobs:
         run: python download_card_images.py
 
   create_metadata:
-    runs-on: ubuntu-proxmox
+    runs-on: self-hosted
     needs: download_images
     steps:
       - name: Checkout code
@@ -85,7 +85,7 @@ jobs:
         run: python make_metadata_csv.py
 
   data_analysis:
-    runs-on: ubuntu-proxmox
+    runs-on: self-hosted
     needs: create_metadata
     steps:
       - name: Checkout code
