@@ -8,17 +8,40 @@ on:
     schedule:
     - cron: '0 0 * * *'  # Uruchamia się codziennie o północy
 
+env:
+  GLOBAL_PATH: "/home/kuba/mtg_project/"
+
 jobs:
-  download_data:
+  setup_directories:
     runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Ustawienie symlinków do katalogu danych
+      - name: Load environment variables
         run: |
-          mkdir -p /home/kuba/mtg_project/data
-          ln -sfn /home/kuba/mtg_project/data data
+          export $(cat .env | xargs)
+
+      - name: Create directories and symlinks
+        run: |
+          mkdir -p ${GLOBAL_PATH}${DATA_DIR_PATH}
+          mkdir -p ${GLOBAL_PATH}${CARDS_DIR_PATH}
+          mkdir -p ${GLOBAL_PATH}${LOGS_DIR_PATH}
+          mkdir -p ${GLOBAL_PATH}${DATASETS_DIR_PATH}
+          mkdir -p ${GLOBAL_PATH}${REPORTS_DIR_PATH}
+          mkdir -p ${GLOBAL_PATH}${DICTIONARIES_DIR_PATH}
+
+          ln -sfn ${GLOBAL_PATH}${DATA_DIR_PATH} ${DATA_DIR_PATH}
+          ln -sfn ${GLOBAL_PATH}${CARDS_DIR_PATH} ${CARDS_DIR_PATH}
+          ln -sfn ${GLOBAL_PATH}${LOGS_DIR_PATH} ${LOGS_DIR_PATH}
+          ln -sfn $GLOBAL_PATH}${REPORTS_DIR_PATH} ${REPORTS_DIR_PATH}
+          ln -sfn ${GLOBAL_PATH}${DICTIONARIES_DIR_PATH} ${DICTIONARIES_DIR_PATH}
+
+  download_data:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -32,10 +55,10 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie download_bulk_data.py
-        run: poetry run python download_bulk_data.py
+        run: poetry run python ${DOWNLOAD_BULK_DATA_SCRIPT_PATH}
 
       - name: Uruchomienie download_types.py
-        run: poetry run python download_types.py
+        run: poetry run python ${DOWNLOAD_TYPES_SCRIPT_PATH}
 
   download_images:
     runs-on: self-hosted
@@ -43,15 +66,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Ustawienie symlinków do katalogów data, cards i logs
-        run: |
-          mkdir -p /home/kuba/mtg_project/data
-          mkdir -p /home/kuba/mtg_project/cards
-          mkdir -p /home/kuba/mtg_project/logs
-          ln -sfn /home/kuba/mtg_project/data data
-          ln -sfn /home/kuba/mtg_project/cards cards
-          ln -sfn /home/kuba/mtg_project/logs logs
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -65,7 +79,7 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie download_card_images.py
-        run: poetry run python download_card_images.py
+        run: poetry run python ${DOWNLOAD_IMAGES_SCRIPT_PATH}
 
   create_metadata:
     runs-on: self-hosted
@@ -73,17 +87,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Ustawienie symlinków do katalogów data, cards, datasets i logs
-        run: |
-          mkdir -p /home/kuba/mtg_project/data
-          mkdir -p /home/kuba/mtg_project/cards
-          mkdir -p /home/kuba/mtg_project/datasets
-          mkdir -p /home/kuba/mtg_project/logs
-          ln -sfn /home/kuba/mtg_project/data data
-          ln -sfn /home/kuba/mtg_project/cards cards
-          ln -sfn /home/kuba/mtg_project/datasets datasets
-          ln -sfn /home/kuba/mtg_project/logs logs
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -97,7 +100,7 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie make_metadata_csv.py
-        run: poetry run python make_metadata_csv.py
+        run: poetry run python ${CREATE_DATASET_SCRIPT_PATH}
 
   data_analysis:
     runs-on: self-hosted
@@ -105,13 +108,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Ustawienie symlinków do katalogów datasets i cards
-        run: |
-          mkdir -p /home/kuba/mtg_project/cards
-          mkdir -p /home/kuba/mtg_project/datasets
-          ln -sfn /home/kuba/mtg_project/cards cards
-          ln -sfn /home/kuba/mtg_project/datasets datasets
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -125,4 +121,4 @@ jobs:
         run: poetry install -vvv
 
       - name: Uruchomienie data_analysis.py
-        run: poetry run python data_analysis.py
+        run: poetry run python ${DATA_ANALYSIS_SCRIPT_PATH}

@@ -142,4 +142,3 @@ Projekt ten ma na celu stworzenie modelu zdolnego do przewidywania kluczowych ce
 Dzięki zastosowaniu technik przetwarzania obrazów i uczenia maszynowego, projekt ten może znaleźć praktyczne zastosowanie w automatycznej kategoryzacji kart, wspomaganiu kolekcjonerów czy tworzeniu aplikacji mobilnych zdolnych do rozpoznawania kart na podstawie zdjęć.
 
 ---
-

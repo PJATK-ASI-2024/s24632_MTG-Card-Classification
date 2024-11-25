@@ -6,7 +6,7 @@ authors = ["Macrume <jakub.jarzabek49@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.10,<3.11"
 requests = "^2.32.3"
 ijson = "^3.3.0"
 tqdm = "^4.67.0"
@@ -16,6 +16,9 @@ matplotlib = "^3.9.2"
 scikit-learn = "^1.5.2"
 seaborn = "^0.13.2"
 ipykernel = "^6.29.5"
+ydata-profiling = "^4.12.0"
+ipywidgets = "^8.1.5"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]
