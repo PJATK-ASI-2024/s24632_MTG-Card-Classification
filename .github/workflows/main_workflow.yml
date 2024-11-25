@@ -20,7 +20,7 @@ jobs:
 
       - name: Load environment variables
         run: |
-          export $(cat .env | xargs)
+          export $(grep -v '^#' .env | xargs)
 
       - name: Create directories and symlinks
         run: |
