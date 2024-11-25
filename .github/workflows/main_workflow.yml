@@ -39,6 +39,7 @@ jobs:
 
   download_data:
     runs-on: self-hosted
+    needs: setup_directories
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
