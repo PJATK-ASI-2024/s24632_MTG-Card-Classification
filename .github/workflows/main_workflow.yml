@@ -47,7 +47,7 @@ jobs:
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -71,7 +71,7 @@ jobs:
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -92,7 +92,7 @@ jobs:
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -113,7 +113,7 @@ jobs:
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
