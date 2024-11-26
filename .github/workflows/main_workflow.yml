@@ -47,6 +47,7 @@ jobs:
           ln -sfn ${GLOBAL_PATH}${DATA_DIR_PATH} ${DATA_DIR_PATH}
           ln -sfn ${GLOBAL_PATH}${CARDS_DIR_PATH} ${CARDS_DIR_PATH}
           ln -sfn ${GLOBAL_PATH}${LOGS_DIR_PATH} ${LOGS_DIR_PATH}
+          ln -sfn ${GLOBAL_PATH}${DATASETS_DIR_PATH} ${DATASETS_DIR_PATH}
           ln -sfn ${GLOBAL_PATH}${REPORTS_DIR_PATH} ${REPORTS_DIR_PATH}
           ln -sfn ${GLOBAL_PATH}${DICTIONARIES_DIR_PATH} ${DICTIONARIES_DIR_PATH}
 
