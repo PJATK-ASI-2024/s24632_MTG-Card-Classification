@@ -1,11 +1,11 @@
 name: MTG Card Prediction Workflow
 
 on:
-    push:
-        branches:
-          - main  
-    workflow_dispatch:
-    schedule:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
     - cron: '0 0 * * *'  # Uruchamia się codziennie o północy
 
 env:
@@ -24,6 +24,17 @@ jobs:
             echo "$line" >> $GITHUB_ENV
           done
 
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables:"
+          env | grep GLOBAL_PATH
+          env | grep DATA_DIR_PATH
+          env | grep CARDS_DIR_PATH
+          env | grep LOGS_DIR_PATH
+          env | grep DATASETS_DIR_PATH
+          env | grep REPORTS_DIR_PATH
+          env | grep DICTIONARIES_DIR_PATH
+
       - name: Create directories and symlinks
         run: |
           mkdir -p ${GLOBAL_PATH}${DATA_DIR_PATH}
@@ -39,12 +50,27 @@ jobs:
           ln -sfn ${GLOBAL_PATH}${REPORTS_DIR_PATH} ${REPORTS_DIR_PATH}
           ln -sfn ${GLOBAL_PATH}${DICTIONARIES_DIR_PATH} ${DICTIONARIES_DIR_PATH}
 
+      - name: Debug symlinks
+        run: |
+          echo "Debugging symlinks:"
+          ls -l ${DATA_DIR_PATH}
+          ls -l ${CARDS_DIR_PATH}
+          ls -l ${LOGS_DIR_PATH}
+          ls -l ${DATASETS_DIR_PATH}
+          ls -l ${REPORTS_DIR_PATH}
+          ls -l ${DICTIONARIES_DIR_PATH}
+
   download_data:
     runs-on: self-hosted
     needs: setup_directories
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in download_data step:"
+          env
 
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
@@ -53,15 +79,26 @@ jobs:
 
       - name: Load environment variables
         run: |
-            grep -v '^#' .env | while IFS= read -r line; do
-              echo "$line" >> $GITHUB_ENV
-            done
+          grep -v '^#' .env | while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
+      - name: Debug Poetry and Python
+        run: |
+          poetry --version
+          python --version
+
       - name: Instalacja zależności
-        run: poetry install 
+        run: poetry install
+
+      - name: Debug symlinks
+        run: |
+          echo "Debugging symlinks in download_data step:"
+          ls -l ${DATA_DIR_PATH}
+          ls -l ${CARDS_DIR_PATH}
 
       - name: Uruchomienie download_bulk_data.py
         run: poetry run python ${DOWNLOAD_BULK_DATA_SCRIPT_PATH}
@@ -76,6 +113,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in download_images step:"
+          env
+
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -83,15 +125,20 @@ jobs:
 
       - name: Load environment variables
         run: |
-            grep -v '^#' .env | while IFS= read -r line; do
-              echo "$line" >> $GITHUB_ENV
-            done
+          grep -v '^#' .env | while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
         run: poetry install
+
+      - name: Debug symlinks
+        run: |
+          echo "Debugging symlinks in download_images step:"
+          ls -l ${CARDS_DIR_PATH}
 
       - name: Uruchomienie download_card_images.py
         run: poetry run python ${DOWNLOAD_IMAGES_SCRIPT_PATH}
@@ -103,6 +150,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in create_metadata step:"
+          env
+
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -110,15 +162,20 @@ jobs:
 
       - name: Load environment variables
         run: |
-              grep -v '^#' .env | while IFS= read -r line; do
-                echo "$line" >> $GITHUB_ENV
-              done
+          grep -v '^#' .env | while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
         run: poetry install
+
+      - name: Debug symlinks
+        run: |
+          echo "Debugging symlinks in create_metadata step:"
+          ls -l ${DATASETS_DIR_PATH}
 
       - name: Uruchomienie make_metadata_csv.py
         run: poetry run python ${CREATE_DATASET_SCRIPT_PATH}
@@ -130,6 +187,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in data_analysis step:"
+          env
+
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -137,15 +199,20 @@ jobs:
 
       - name: Load environment variables
         run: |
-              grep -v '^#' .env | while IFS= read -r line; do
-                echo "$line" >> $GITHUB_ENV
-              done
+          grep -v '^#' .env | while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
       - name: Instalacja zależności
         run: poetry install
+
+      - name: Debug symlinks
+        run: |
+          echo "Debugging symlinks in data_analysis step:"
+          ls -l ${DATASETS_DIR_PATH}
 
       - name: Uruchomienie data_analysis.py
         run: poetry run python ${DATA_ANALYSIS_SCRIPT_PATH}
