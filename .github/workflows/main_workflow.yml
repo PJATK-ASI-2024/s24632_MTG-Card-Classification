@@ -27,18 +27,18 @@ jobs:
 
       - name: Create directories and symlinks
         run: |
-          mkdir -p ${{GLOBAL_PATH}}${{DATA_DIR_PATH}}
-          mkdir -p ${{GLOBAL_PATH}}${{CARDS_DIR_PATH}}
-          mkdir -p ${{GLOBAL_PATH}}${{LOGS_DIR_PATH}}
-          mkdir -p ${{GLOBAL_PATH}}${{DATASETS_DIR_PATH}}
-          mkdir -p ${{GLOBAL_PATH}}${{REPORTS_DIR_PATH}}
-          mkdir -p ${{GLOBAL_PATH}}${{DICTIONARIES_DIR_PATH}}
+          mkdir -p ${{ env.GLOBAL_PATH}}${{ env.DATA_DIR_PATH}}
+          mkdir -p ${{ env.GLOBAL_PATH}}${{ env.CARDS_DIR_PATH}}
+          mkdir -p ${{ env.GLOBAL_PATH}}${{ env.LOGS_DIR_PATH}}
+          mkdir -p ${{ env.GLOBAL_PATH}}${{ env.DATASETS_DIR_PATH}}
+          mkdir -p ${{ env.GLOBAL_PATH}}${{ env.REPORTS_DIR_PATH}}
+          mkdir -p ${{ env.GLOBAL_PATH}}${{ env.DICTIONARIES_DIR_PATH}}
 
-          ln -sfn ${{GLOBAL_PATH}}${{DATA_DIR_PATH}} ${{DATA_DIR_PATH}}
-          ln -sfn ${{GLOBAL_PATH}}${{CARDS_DIR_PATH}} ${{CARDS_DIR_PATH}}
-          ln -sfn ${{GLOBAL_PATH}}${{LOGS_DIR_PATH}} ${{LOGS_DIR_PATH}}
-          ln -sfn ${{GLOBAL_PATH}}${{REPORTS_DIR_PATH}} ${{REPORTS_DIR_PATH}}
-          ln -sfn ${{GLOBAL_PATH}}${{DICTIONARIES_DIR_PATH}} ${{DICTIONARIES_DIR_PATH}}
+          ln -sfn ${{ env.GLOBAL_PATH}}${{ env.DATA_DIR_PATH}} ${{ env.DATA_DIR_PATH}}
+          ln -sfn ${{ env.GLOBAL_PATH}}${{ env.CARDS_DIR_PATH}} ${{ env.CARDS_DIR_PATH}}
+          ln -sfn ${{ env.GLOBAL_PATH}}${{ env.LOGS_DIR_PATH}} ${{ env.LOGS_DIR_PATH}}
+          ln -sfn ${{ env.GLOBAL_PATH}}${{ env.REPORTS_DIR_PATH}} ${{ env.REPORTS_DIR_PATH}}
+          ln -sfn ${{ env.GLOBAL_PATH}}${{ env.DICTIONARIES_DIR_PATH}} ${{ env.DICTIONARIES_DIR_PATH}}
 
   download_data:
     runs-on: self-hosted
@@ -59,10 +59,10 @@ jobs:
         run: poetry install 
 
       - name: Uruchomienie download_bulk_data.py
-        run: poetry run python ${{DOWNLOAD_BULK_DATA_SCRIPT_PATH}}
+        run: poetry run python ${{ env.DOWNLOAD_BULK_DATA_SCRIPT_PATH}}
 
       - name: Uruchomienie download_types.py
-        run: poetry run python ${{DOWNLOAD_TYPES_SCRIPT_PATH}}
+        run: poetry run python ${{ env.DOWNLOAD_TYPES_SCRIPT_PATH}}
 
   download_images:
     runs-on: self-hosted
@@ -83,7 +83,7 @@ jobs:
         run: poetry install
 
       - name: Uruchomienie download_card_images.py
-        run: poetry run python ${{DOWNLOAD_IMAGES_SCRIPT_PATH}}
+        run: poetry run python ${{ env.DOWNLOAD_IMAGES_SCRIPT_PATH}}
 
   create_metadata:
     runs-on: self-hosted
@@ -104,7 +104,7 @@ jobs:
         run: poetry install
 
       - name: Uruchomienie make_metadata_csv.py
-        run: poetry run python ${{CREATE_DATASET_SCRIPT_PATH}}
+        run: poetry run python ${{ env.CREATE_DATASET_SCRIPT_PATH}}
 
   data_analysis:
     runs-on: self-hosted
@@ -125,4 +125,4 @@ jobs:
         run: poetry install
 
       - name: Uruchomienie data_analysis.py
-        run: poetry run python ${{DATA_ANALYSIS_SCRIPT_PATH}}
+        run: poetry run python ${{ env.DATA_ANALYSIS_SCRIPT_PATH}}
