@@ -401,7 +401,6 @@ profile = ProfileReport(df, title="Raport EDA dla zbioru danych", explorative=Tr
 
 profile.to_notebook_iframe()
 
-
 profile.to_file(EDA_REPORT_PATH)
 
 
