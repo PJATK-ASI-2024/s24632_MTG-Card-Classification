@@ -20,7 +20,9 @@ jobs:
 
       - name: Load environment variables
         run: |
-          export $(grep -v '^#' .env | xargs)
+          grep -v '^#' .env | while IFS= read -r line; do
+            echo "$line" >> $GITHUB_ENV
+          done
 
       - name: Create directories and symlinks
         run: |
@@ -79,7 +81,9 @@ jobs:
 
       - name: Load environment variables
         run: |
-            export $(grep -v '^#' .env | xargs)
+            grep -v '^#' .env | while IFS= read -r line; do
+              echo "$line" >> $GITHUB_ENV
+            done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -104,7 +108,9 @@ jobs:
 
       - name: Load environment variables
         run: |
-              export $(grep -v '^#' .env | xargs)
+              grep -v '^#' .env | while IFS= read -r line; do
+                echo "$line" >> $GITHUB_ENV
+              done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -129,7 +135,9 @@ jobs:
 
       - name: Load environment variables
         run: |
-              export $(grep -v '^#' .env | xargs)
+              grep -v '^#' .env | while IFS= read -r line; do
+                echo "$line" >> $GITHUB_ENV
+              done
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
