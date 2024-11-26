@@ -17,6 +17,9 @@ from dotenv import load_dotenv
 # Załaduj zmienne z pliku .env
 load_dotenv()
 
+PROCESSED_DATASET_PATH = os.getenv("PROCESSED_DATASET_PATH")
+TEST_DATASET_PATH = os.getenv("TEST_DATASET_PATH")
+TRAIN_DATASET_PATH = os.getenv("TRAIN_DATASET_PATH")
 
 DATASETS_DIR_PATH = os.getenv("DATASETS_DIR_PATH")
 REPORTS_DIR_PATH = os.getenv("REPORTS_DIR_PATH")
@@ -388,9 +391,9 @@ if not os.path.exists(datasets_dir):
     os.makedirs(datasets_dir)
 
 
-df.to_csv(os.path.join(datasets_dir,'processed_data.csv'), index=False)
-train_df.to_csv(os.path.join(datasets_dir,'train_data.csv'), index=False)
-test_df.to_csv(os.path.join(datasets_dir,'test_df.csv'), index=False)
+df.to_csv(PROCESSED_DATASET_PATH, index=False)
+train_df.to_csv(TRAIN_DATASET_PATH, index=False)
+test_df.to_csv(TEST_DATASET_PATH, index=False)
 
 # %% [markdown]
 # # 9. Generowanie raportu
