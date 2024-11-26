@@ -20,15 +20,12 @@ jobs:
 
       - name: Load environment variables
         run: |
-          grep -v '^#' .env | while read -r line; do
-            echo "$line" >> $GITHUB_ENV
-          done
-      
+          export $(grep -v '^#' .env | xargs)
 
       - name: Create directories and symlinks
         run: |
           mkdir -p ${GLOBAL_PATH}${DATA_DIR_PATH}
-          mkdir -p ${LOBAL_PATH}${CARDS_DIR_PATH}
+          mkdir -p ${GLOBAL_PATH}${CARDS_DIR_PATH}
           mkdir -p ${GLOBAL_PATH}${LOGS_DIR_PATH}
           mkdir -p ${GLOBAL_PATH}${DATASETS_DIR_PATH}
           mkdir -p ${GLOBAL_PATH}${REPORTS_DIR_PATH}
@@ -51,6 +48,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
+      - name: Load environment variables
+        run: |
+            export $(grep -v '^#' .env | xargs)
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -76,6 +77,10 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Load environment variables
+        run: |
+            export $(grep -v '^#' .env | xargs)
+
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
@@ -97,6 +102,10 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Load environment variables
+        run: |
+              export $(grep -v '^#' .env | xargs)
+
       - name: Install Poetry
         uses: snok/install-poetry@v1
 
@@ -117,6 +126,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
+      - name: Load environment variables
+        run: |
+              export $(grep -v '^#' .env | xargs)
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
