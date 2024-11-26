@@ -68,11 +68,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Debug environment variables
-        run: |
-          echo "Debugging environment variables in download_data step:"
-          env
-
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -83,6 +78,11 @@ jobs:
           grep -v '^#' .env | while IFS= read -r line; do
             echo "$line" >> $GITHUB_ENV
           done
+
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in download_data step:"
+          env
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -114,11 +114,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Debug environment variables
-        run: |
-          echo "Debugging environment variables in download_images step:"
-          env
-
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -129,6 +124,11 @@ jobs:
           grep -v '^#' .env | while IFS= read -r line; do
             echo "$line" >> $GITHUB_ENV
           done
+
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in download_data step:"
+          env
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -151,11 +151,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Debug environment variables
-        run: |
-          echo "Debugging environment variables in create_metadata step:"
-          env
-
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -166,6 +161,11 @@ jobs:
           grep -v '^#' .env | while IFS= read -r line; do
             echo "$line" >> $GITHUB_ENV
           done
+
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in create_metadata step:"
+          env
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
@@ -188,11 +188,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Debug environment variables
-        run: |
-          echo "Debugging environment variables in data_analysis step:"
-          env
-
       - name: Ustawienie Pythona
         uses: actions/setup-python@v4
         with:
@@ -203,6 +198,11 @@ jobs:
           grep -v '^#' .env | while IFS= read -r line; do
             echo "$line" >> $GITHUB_ENV
           done
+
+      - name: Debug environment variables
+        run: |
+          echo "Debugging environment variables in data_analysis step:"
+          env
 
       - name: Install Poetry
         uses: snok/install-poetry@v1
