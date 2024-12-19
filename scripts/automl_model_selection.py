@@ -1,5 +1,3 @@
-# automl_model_selection.py
-
 # Importowanie potrzebnych bibliotek
 import os
 import pandas as pd
