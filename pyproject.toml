@@ -1,5 +1,9 @@
 [tool.poetry]
-package-mode = false
+name = "airflow_project"
+version = "0.1.0"
+description = "Projekt Airflow z użyciem Poetry"
+authors = ["a"]
+
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.11"
@@ -16,6 +20,8 @@ ydata-profiling = "^4.12.0"
 ipywidgets = "^8.1.5"
 python-dotenv = "^1.0.1"
 tpot = "^0.12.2"
+gspread = "^6.1.4"
+oauth2client = "^4.1.3"
 
 
 [tool.poetry.group.dev.dependencies]
