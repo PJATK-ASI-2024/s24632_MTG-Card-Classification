@@ -223,8 +223,8 @@ def save_to_google_sheets(**kwargs):
         raise
 
     datasets = {
-        "train_data": train_df,
-        "test_data": test_df
+        GOOGLE_SHEETS_MODEL_SHEET: train_df,
+        GOOGLE_SHEETS_TRAIN_SHEET: test_df
     }
 
     for sheet_name, df in datasets.items():
@@ -235,10 +235,10 @@ def save_to_google_sheets(**kwargs):
             sheet = sh.worksheet(sheet_name)
             sheet.clear()
 
-            for i in range(0, len(df), 100):  # Batch upload co 100 wierszy
-                sheet.append_rows(df.iloc[i:i+100].values.tolist(), value_input_option='USER_ENTERED')
-                logger.info(f"Zapisano batch {i//100 + 1} do arkusza {sheet_name}")
-                time.sleep(2)  # Dodanie przerwy 2 sekundy po każdym batchu, aby uniknąć przekroczenia limitu
+            for i in range(0, len(df), 1000):  # Batch upload co 1000 wierszy
+                sheet.append_rows(df.iloc[i:i+1000].values.tolist(), value_input_option='USER_ENTERED')
+                logger.info(f"Zapisano batch {i//1000 + 1} do arkusza {sheet_name}")
+                time.sleep(1)  # Dodanie przerwy 2 sekundy po każdym batchu, aby uniknąć przekroczenia limitu
 
         except Exception as e:
             logger.error(f"Błąd podczas zapisu do arkusza {sheet_name}: {e}")

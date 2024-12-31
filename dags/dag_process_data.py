@@ -8,9 +8,16 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from dotenv import load_dotenv
+import logging
+import time
+
 
 # Załaduj zmienne z pliku .env
 load_dotenv()
+
+# Konfiguracja logowania
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 # Pobierz zmienne środowiskowe
 GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
@@ -41,26 +48,43 @@ dag = DAG(
 
 def fetch_data_from_google_sheets(**kwargs):
     # Autoryzacja z Google Sheets
-    scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/spreadsheets',
-             "https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
+    scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
+             "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_name(GOOGLE_SHEETS_CREDENTIALS, scope)
     client = gspread.authorize(creds)
-    
+
     # Otwórz arkusz Google Sheets
     sh = client.open(GOOGLE_SHEETS_NAME)
-    
+
     # Pobierz dane z arkusza "Zbior modelowy"
     try:
         model_sheet = sh.worksheet(GOOGLE_SHEETS_MODEL_SHEET)
     except gspread.WorksheetNotFound:
         raise Exception(f"Worksheet {GOOGLE_SHEETS_MODEL_SHEET} not found in {GOOGLE_SHEETS_NAME}")
-    
-    data = model_sheet.get_all_records()
-    df = pd.DataFrame(data)
-    df = df.replace({float('nan'): None, float('inf'): None, float('-inf'): None})
+
+    # Pobieranie danych w batch'ach
+    batch_size = 1000  
+    total_rows = model_sheet.row_count
+    num_batches = -(-total_rows // batch_size)  # Zaokrąglenie w górę do najbliższej liczby całkowitej
+    data = []
+    for i in range(num_batches):
+        start_row = i * batch_size + 1
+        end_row = min((i + 1) * batch_size, total_rows)
+        batch_data = model_sheet.get(f'A{start_row}:Z{end_row}')
+        data.extend(batch_data)
+        time.sleep(1)
+        logger.info(f"Pobrano batch {i+1}/{num_batches} z arkusza {GOOGLE_SHEETS_MODEL_SHEET}")
+
+    # Utworzenie DataFrame
+    df = pd.DataFrame(data[1:], columns=data[0])
+
+    # Przechowaj DataFrame w XCom jako JSON
+    kwargs['ti'].xcom_push(key='raw_data', value=df.to_json())
     
     # Przechowaj DataFrame w XCom jako JSON
     kwargs['ti'].xcom_push(key='raw_data', value=df.to_json())
+    
+    return
 
 def clean_data(**kwargs):
     ti = kwargs['ti']
