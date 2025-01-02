@@ -2,9 +2,10 @@
 /data
 /datasets
 /logs
+models\random_forest_model.joblib
 cards_metadata.csv
 color_identity_code_mapping.txt
 colors_code_mapping.txt
 raport.txt
-cnn.ipynb
 asilaby-ed62c735371a.json
+cnn.ipynb
