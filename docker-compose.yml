@@ -28,6 +28,10 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ${AIRFLOW_PROJ_DIR:-.}/pyproject.toml:/opt/airflow/pyproject.toml
     - ${AIRFLOW_PROJ_DIR:-.}/poetry.lock:/opt/airflow/poetry.lock
+    - ${AIRFLOW_PROJ_DIR:-.}/datasets:/opt/airflow/datasets
+    - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
+    - ${AIRFLOW_PROJ_DIR:-.}/reports:/opt/airflow/reports
+    - ${AIRFLOW_PROJ_DIR:-.}/visualizations:/opt/airflow/visualizations
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
