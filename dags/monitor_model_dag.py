@@ -193,15 +193,6 @@ with DAG(
     )
 
     # Task 3: Sprawdzenie wyników i (opcjonalna) wysyłka maila
-    # Ten task będzie zawsze wywołany, nawet gdy poprzednie się sypną – 
-    # w standardowym przepływie, jeśli task "evaluate_model" lub "run_tests" 
-    # się nie uda, DAG się zatrzyma. 
-    # Aby wykonać "check_results_and_send_email" pomimo faila, 
-    # można użyć trigger_rule="all_done", jednak wówczas 
-    # musimy mieć xcom'y i logi z poprzednich zadań. 
-    # Najczęściej wygodniej jest, by ten task wykonał się tylko, 
-    # jeśli poprzednie taski się powiodły (bo w razie realnego faila 
-    # nie dojdziemy do sprawdzenia i tak).
     check_results = PythonOperator(
         task_id="check_results_and_send_email",
         python_callable=check_results_and_send_email,
