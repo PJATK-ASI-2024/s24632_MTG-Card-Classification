@@ -238,7 +238,7 @@ def save_to_google_sheets(**kwargs):
             for i in range(0, len(df), 1000):  # Batch upload co 1000 wierszy
                 sheet.append_rows(df.iloc[i:i+1000].values.tolist(), value_input_option='USER_ENTERED')
                 logger.info(f"Zapisano batch {i//1000 + 1} do arkusza {sheet_name}")
-                time.sleep(1)  # Dodanie przerwy 2 sekundy po każdym batchu, aby uniknąć przekroczenia limitu
+                time.sleep(1)  # Dodanie przerwy 1 sekundy po każdym batchu, aby uniknąć przekroczenia limitu
 
         except Exception as e:
             logger.error(f"Błąd podczas zapisu do arkusza {sheet_name}: {e}")

@@ -2,7 +2,7 @@ x-airflow-common:
   &airflow-common
   build:
     context: .
-    dockerfile: Dockerfile  # Użyj niestandardowego Dockerfile
+    dockerfile: Dockerfile
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -32,6 +32,8 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/models:/opt/airflow/models
     - ${AIRFLOW_PROJ_DIR:-.}/reports:/opt/airflow/reports
     - ${AIRFLOW_PROJ_DIR:-.}/visualizations:/opt/airflow/visualizations
+    - ${AIRFLOW_PROJ_DIR:-.}/tests:/opt/airflow/tests
+    - ${AIRFLOW_PROJ_DIR:-.}/airflow.cfg:/opt/airflow/airflow.cfg
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
@@ -135,10 +137,10 @@ services:
     command:
       - -c
       - |
-        # (Zachowaj resztę skryptu init)
-        # ... (bez zmian)
         mkdir -p /sources/logs /sources/dags /sources/plugins
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
+
+        echo "Baza danych została zainicjalizowana."
         exec /entrypoint airflow version
     environment:
       <<: *airflow-common-env
