@@ -6,20 +6,18 @@ from airflow.utils.dates import days_ago
 import pandas as pd
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 
-# Załaduj zmienne środowiskowe
-load_dotenv()
-
-# Ścieżki do danych i raportów
-DATASETS_DIR_PATH = os.getenv("DATASETS_DIR_PATH","datasets")
-REPORTS_DIR_PATH = os.getenv("REPORTS_DIR_PATH", "reports")
-VISUALIZATIONS_DIR_PATH = os.getenv("VISUALIZATIONS_DIR_PATH","visualizations")
+# ładowanie ścieżek do plików
+from config import (
+    DATASETS_DIR_PATH,
+    REPORTS_DIR_PATH,
+    VISUALIZATIONS_DIR_PATH,
+)
 
 Path(REPORTS_DIR_PATH).mkdir(parents=True, exist_ok=True)
 Path(DATASETS_DIR_PATH).mkdir(parents=True, exist_ok=True)

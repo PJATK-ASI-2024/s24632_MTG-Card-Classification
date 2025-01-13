@@ -6,19 +6,18 @@ from airflow.utils.dates import days_ago
 import pandas as pd
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, mean_absolute_error, classification_report
 import joblib
 
-# Załaduj zmienne środowiskowe
-load_dotenv()
+# ładowanie ścieżek do plików
+from config import (
+    DATASETS_DIR_PATH,
+    MODELS_DIR_PATH,
+    REPORTS_DIR_PATH,
+)
 
-# Ścieżki do danych, modeli i raportów
-DATASETS_DIR_PATH = os.getenv("DATASETS_DIR_PATH", "datasets")
-MODELS_DIR_PATH = os.getenv("MODELS_DIR_PATH", "models")
-REPORTS_DIR_PATH = os.getenv("REPORTS_DIR_PATH", "reports")
 Path(MODELS_DIR_PATH).mkdir(parents=True, exist_ok=True)
 Path(REPORTS_DIR_PATH).mkdir(parents=True, exist_ok=True)
 

@@ -7,23 +7,21 @@ import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from dotenv import load_dotenv
 import logging
 import time
 
 
-# Załaduj zmienne z pliku .env
-load_dotenv()
+# ładowanie ścieżek do plików
+from config import (
+    GOOGLE_SHEETS_CREDENTIALS, 
+    GOOGLE_SHEETS_NAME,
+    GOOGLE_SHEETS_MODEL_SHEET,
+    GOOGLE_SHEETS_PROCESSED_SHEET
+)
 
 # Konfiguracja logowania
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-# Pobierz zmienne środowiskowe
-GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-GOOGLE_SHEETS_NAME = os.getenv("GOOGLE_SHEETS_NAME")
-GOOGLE_SHEETS_MODEL_SHEET = os.getenv("GOOGLE_SHEETS_MODEL_SHEET")
-GOOGLE_SHEETS_PROCESSED_SHEET = os.getenv("GOOGLE_SHEETS_PROCESSED_SHEET")
 
 # Default arguments dla DAG
 default_args = {

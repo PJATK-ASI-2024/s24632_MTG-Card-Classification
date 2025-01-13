@@ -5,7 +5,6 @@ import os
 import json
 import ijson
 import requests
-from dotenv import load_dotenv
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import gspread
@@ -13,17 +12,16 @@ from oauth2client.service_account import ServiceAccountCredentials
 import logging
 import time
 
-# Załaduj zmienne z pliku .env
-load_dotenv()
-
-# Pobierz zmienne środowiskowe
-DATA_DIR_PATH = os.getenv("DATA_DIR_PATH")
-BULK_DATA_PATH = os.getenv("BULK_DATA_PATH")
-TYPES_DICT_PATH = os.getenv("TYPES_DICT_PATH")
-GOOGLE_SHEETS_CREDENTIALS = os.getenv("GOOGLE_SHEETS_CREDENTIALS")
-GOOGLE_SHEETS_NAME = os.getenv("GOOGLE_SHEETS_NAME")
-GOOGLE_SHEETS_MODEL_SHEET = os.getenv("GOOGLE_SHEETS_MODEL_SHEET")
-GOOGLE_SHEETS_TRAIN_SHEET = os.getenv("GOOGLE_SHEETS_TRAIN_SHEET")
+# ładowanie ścieżek do plików
+from config import (
+    DATA_DIR_PATH,
+    BULK_DATA_PATH,
+    TYPES_DICT_PATH,
+    GOOGLE_SHEETS_CREDENTIALS, 
+    GOOGLE_SHEETS_NAME,
+    GOOGLE_SHEETS_MODEL_SHEET,
+    GOOGLE_SHEETS_TRAIN_SHEET
+)
 
 # Konfiguracja logowania
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
