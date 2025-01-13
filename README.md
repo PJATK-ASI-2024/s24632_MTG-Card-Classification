@@ -1,11 +1,15 @@
-# Przewidywanie cech kart Magic: The Gathering na podstawie obrazów
+# Przewidywanie rzadkości kart Magic: The Gathering na podstawie obrazów
 
 ## Spis treści
 
 - [Opis projektu](#opis-projektu)
+  - [Cel projektu](#cel-projektu)
 - [Źródło danych](#źródło-danych)
   - [Dlaczego Scryfall?](#dlaczego-scryfall)
   - [Użyte endpointy API](#użyte-endpointy-api)
+- [Opis modelu](#opis-modelu)
+  - [Wybór modelu](#wybór-modelu)
+  - [Raport TPOT](#raport-tpot)
 - [Cele projektu](#cele-projektu)
 - [Struktura projektu](#struktura-projektu)
 - [Użyte skrypty](#użyte-skrypty)
@@ -15,15 +19,11 @@
 
 ## Opis projektu
 
-Celem tego projektu jest zbudowanie modelu, który na podstawie obrazu karty z gry **Magic: The Gathering** będzie w stanie przewidzieć jej kluczowe cechy:
+Celem tego projektu jest zbudowanie modelu, który na podstawie metadanych obrazu karty z gry **Magic: The Gathering** będzie w stanie przewidzieć jej **rzadkość** (`rarity`). Projekt ten wykorzystuje **uczenia maszynowego**, ekstrakcji informacji z metadanych i przewidywania rzadkości kart.
 
-- **Converted Mana Cost (cmc)**
-- **Liczba kolorów (num_colors)**
-- **Rzadkość karty (rarity)**
-- **Rok wydania (year)**
-- **Tożsamość kolorów (color_identity)**
+### Cel projektu
 
-Projekt ten łączy w sobie elementy **wizji komputerowej** oraz **uczenia maszynowego**, wykorzystując głębokie sieci neuronowe do ekstrakcji informacji z obrazów i przewidywania cech kart.
+Projekt został stworzony w celu automatyzacji procesu kategoryzacji kart **Magic: The Gathering** na podstawie ich obrazów, co może znaleźć zastosowanie w różnych dziedzinach, takich jak zarządzanie kolekcjami, wsparcie dla kolekcjonerów czy tworzenie aplikacji mobilnych umożliwiających rozpoznawanie kart.
 
 ---
 
@@ -59,6 +59,66 @@ Do pobrania danych i obrazów kart wykorzystano następujące endpointy API Scry
 
 ---
 
+## Opis modelu
+
+### Wybór modelu
+
+Do przewidywania rzadkości kart użyto modelu **RandomForestClassifier**, wybranego za pomocą narzędzia AutoML **TPOT**. RandomForestClassifier został wybrany ze względu na swoją skuteczność w zadaniach klasyfikacyjnych oraz zdolność radzenia sobie z dużą ilością cech i interakcji między nimi.
+
+### Raport TPOT
+
+Szczegółowy raport z wyboru modelu oraz wyników znajduje się w pliku [reports/tpot_report.md](reports/tpot_report.md).
+
+**Najlepszy wybrany pipeline:**
+
+- **RandomForestClassifier** z następującymi hiperparametrami:
+  - `bootstrap=True`
+  - `criterion=gini`
+  - `max_features=0.5`
+  - `min_samples_leaf=1`
+  - `min_samples_split=4`
+  - `n_estimators=100`
+
+**Raport klasyfikacji:**
+
+| Klasa | Precision | Recall | F1-score | Support |
+|-------|-----------|--------|----------|---------|
+| 0     | 0.72      | 0.74   | 0.73     | 9236    |
+| 1     | 0.61      | 0.56   | 0.58     | 7020    |
+| 2     | 0.73      | 0.77   | 0.75     | 10583   |
+| 3     | 0.82      | 0.75   | 0.78     | 2434    |
+| 4     | 0.24      | 0.05   | 0.08     | 118     |
+| 5     | 0.00      | 0.00   | 0.00     | 3       |
+
+**Accuracy:** 0.71  
+**Macro avg:**  
+- Precision: 0.52  
+- Recall: 0.48  
+- F1-score: 0.49  
+
+**Weighted avg:**  
+- Precision: 0.70  
+- Recall: 0.71  
+- F1-score: 0.70  
+
+**Interpretacja wyników:**
+
+- Model osiągnął **dokładność 71%**.
+- Klasy 0, 2 oraz 3 zostały sklasyfikowane stosunkowo dobrze, z F1-score powyżej 0.7.
+- Klasy 4 i 5 są rzadkie i trudne do przewidzenia, co znajduje odzwierciedlenie w bardzo niskich wynikach (F1-score: 0.08 i 0.00). Możliwe, że do poprawy tych wyników konieczne będzie:
+  - Zwiększenie liczby próbek tych klas.
+  - Użycie metod oversamplingu lub undersamplingu.
+
+**Podsumowanie:**
+
+Najlepszy model Random Forest osiągnął przyzwoite wyniki, zwłaszcza dla dominujących klas (0, 2, 3). Istnieje jednak potrzeba dalszego dostrojenia modelu lub zmiany strategii przetwarzania danych w celu poprawy jakości predykcji dla mniej licznych klas. W następnych krokach warto rozważyć:
+
+- Analizę ważności cech, aby zrozumieć, które zmienne mają największy wpływ na predykcje.
+- Zastosowanie technik balansu zbioru danych (np. SMOTE, class weights).
+- Przetestowanie innych algorytmów lub bardziej złożonych pipeline’ów pod kątem poprawy wyników dla trudniejszych klas.
+
+---
+
 ## Cele projektu
 
 Główne cele projektu to:
@@ -70,7 +130,7 @@ Główne cele projektu to:
 
 2. **Budowa modelu predykcyjnego**:
    - Wykorzystanie głębokich sieci neuronowych do ekstrakcji cech z obrazów kart.
-   - Trenowanie modelu do przewidywania wybranych cech kart na podstawie obrazów.
+   - Trenowanie modelu do przewidywania rzadkości kart na podstawie obrazów.
    - Ocena wydajności modelu i optymalizacja jego parametrów.
 
 3. **Dokumentacja i wizualizacja wyników**:
@@ -137,8 +197,35 @@ W projekcie wykorzystano następujące skrypty:
 
 ## Podsumowanie
 
-Projekt ten ma na celu stworzenie modelu zdolnego do przewidywania kluczowych cech kart **Magic: The Gathering** na podstawie samych obrazów. Wykorzystanie API Scryfall jako źródła danych zapewnia dostęp do bogatego i aktualnego zestawu informacji, co zwiększa jakość i wiarygodność wyników.
+Projekt ten ma na celu stworzenie modelu zdolnego do przewidywania rzadkości kart **Magic: The Gathering** na podstawie samych obrazów. Wykorzystanie API Scryfall jako źródła danych zapewnia dostęp do bogatego i aktualnego zestawu informacji, co zwiększa jakość i wiarygodność wyników.
 
 Dzięki zastosowaniu technik przetwarzania obrazów i uczenia maszynowego, projekt ten może znaleźć praktyczne zastosowanie w automatycznej kategoryzacji kart, wspomaganiu kolekcjonerów czy tworzeniu aplikacji mobilnych zdolnych do rozpoznawania kart na podstawie zdjęć.
 
+### Dodatkowe materiały
+
+- **Raport TPOT**: [reports/tpot_report.md](reports/tpot_report.md)
+- **Dokumentacja Airflow DAG-ów**: [docs/airflow_dags.md](docs/airflow_dags.md) *(jeśli istnieje)*
+
 ---
+
+## Instalacja i uruchomienie
+
+1. **Klonowanie repozytorium**:
+   ```bash
+   git clone https://github.com/PJATK-ASI-2024/s24632_MTG-Card-Classification.git
+   cd s24632_MTG-Card-Classification
+   ```
+2. **Konfiguracja środowiska**:
+
+- Upewnij się, że masz zainstalowane Docker i Docker Compose.
+- Skonfiguruj plik `.env` z odpowiednimi zmiennymi środowiskowymi.
+
+3. **Budowanie i uruchamianie kontenerów**:
+```bash
+docker compose build
+docker compose up airflow-init
+docker compose up -d
+```
+4. **Dostęp do interfejsu Airflow**:
+
+- Otwórz przeglądarkę i przejdź pod adres `http://localhost:8080`.
